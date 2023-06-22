@@ -43,10 +43,6 @@ const routes = [
 		}
 	},
 	{
-		path: '/testPlayer',
-		component: () => import('@/pages/testPlayer/index.vue'),
-	},
-	{
 		path: '/theme',
 		component: () => import('@/pages/theme/index.vue'),
 		meta: {
