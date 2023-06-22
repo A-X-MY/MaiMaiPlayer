@@ -56,7 +56,7 @@ onMounted(async () => {
 					这个播放器呢是模仿网易云的风格，用vue做出来的一个可diy的音乐播放器啦，里面的网络音乐都是调用网易云api所显示的
 				</div>
 			</div>
-			<img class="content-wrapper-img" src="../static/img/danceMk.png" alt="">
+			<img class="content-wrapper-img" src="../static/img/danceMK-min.png" alt="">
 		</div>
 		<el-skeleton :rows="5" animated :loading="loading">
 			<template #default>
