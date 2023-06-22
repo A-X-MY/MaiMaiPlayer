@@ -128,10 +128,7 @@ const submit = () => {
 		<div class="search-bar">
 			<input type="text" placeholder="Search" @keyup.enter='toResult' v-model='kw'>
 		</div>
-		<div class="about">
-			<a href="https://github.com/XiangZi7/Vue3MusicPlayer/" target="_blank">github</a>
-			<a href="https://github.com/XiangZi7/" target="_blank">about</a>
-		</div>
+
 		<!-- <Navigation /> -->
 		<div class="header-profile" v-if="!currentUserstatus">
 			<div class="username"> <a href="javascript:;" @click="login">登录</a> </div>
