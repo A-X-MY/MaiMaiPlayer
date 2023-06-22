@@ -8,12 +8,7 @@ const globalstore = GlobalStore()
 const currentUserstatus = computed(() => globalstore.isLogin)
 const state = reactive({
 	activeName: "first",
-	buttonList: [
-		{ title: "每日推荐", color: "#409EFF" },
-		{ title: "最新MV", color: "#FF98A5" },
-		{ title: "排行榜", color: "#626aef" },
-		{ title: "歌手", color: "#EBA5F0" },
-	],
+
 	currentPage: 1,
 	songTotal: 0,
 	tableData: []
