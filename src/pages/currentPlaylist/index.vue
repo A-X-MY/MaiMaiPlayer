@@ -23,12 +23,59 @@ const rowdbClick = (row, column, cell, event) => {
 	const resultIdx = musicstore.songs.findIndex(item => item.id == row.id)
 	musicstore.currentIndex = resultIdx
 }
+const deleteAllSongs = () => {
+	musicstore.songs.splice(1, musicstore.songs.length);
+
+}
 const deleteSong = (idx) => {
 	musicstore.songs.splice(idx.$index, 1)
 }
+// 添加导入本地歌曲函数
+const importMusic = () => {
+	let input = document.createElement('input')
+	input.type = 'file'
+	input.accept = 'audio/*'
+	input.onchange = (event) => {
+		let file = event.target.files[0]
+		if(file) {
+			// 读取文件信息
+			let reader = new FileReader()
+			reader.onload = (event) => {
+				// 新增一首歌曲到歌单列表
+				const newSong = {
+					id: musicstore.songs.length + 1,
+					title: file.name.replace(/\.[^/.]+$/, ''),
+					singer: '未知',
+					album: '未知',
+					time: 0,
+					src: URL.createObjectURL(file),
+					cover: '',
+					lrc: '',
+					mv: ''
+				}
+				musicstore.songs.push(newSong)
+			}
+			reader.readAsDataURL(file)
+		}
+	}
+	input.click()
+}
+
+
 </script>
 <template>
 	<div class="content-section">
+		<div class="button-wrapper">
+			<svg @click="deleteAllSongs" t="1686302672906" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3249" width="28" height="28">
+				<circle cx="512" cy="512" r="480" fill="none" stroke-width="50" stroke="red"></circle>
+				<text x="512" y="650" text-anchor="middle" font-size="480" fill="#000000">1</text>
+			</svg>
+			<div style="width: 50px;"></div>
+			<el-button type="primary" size="medium" @click="importMusic">
+				上传歌曲
+			</el-button>
+		</div>
+
 		<div class="content-section-title">
 			<el-table :data="tableData" style="width: 100%" @row-dblclick="rowdbClick">
 				<el-table-column label="歌曲名" width="400">
