@@ -1,3 +1,4 @@
+import { defineStore } from 'pinia'
 export const musicStore = defineStore({
 	id: 'musicStore',
 	state: () => ({
