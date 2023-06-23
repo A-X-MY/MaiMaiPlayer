@@ -19,6 +19,7 @@ onMounted(() => {
 const playerMusic = (row) => {
 	const resultIdx = musicstore.songs.findIndex(item => item.id == row.id)
 	musicstore.currentIndex = resultIdx
+	musicstore.addToPlayed(musicstore.songs[resultIdx])
 }
 const rowdbClick = (row, column, cell, event) => {
 	const resultIdx = musicstore.songs.findIndex(item => item.id == row.id)
@@ -62,11 +63,13 @@ const importMusic = () => {
 	}
 	input.click()
 }
-const toggleLike = (song) => {
-	musicstore.toggleLike(song)
+const toggleLike = (row) => {
+	const resultIdx = musicstore.songs.findIndex(item => item.id == row.id)
+	musicstore.toggleLike(musicstore.songs[resultIdx])
 }
-const toggleFavorite = (song) => { // 新增的收藏功能
-	musicstore.toggleFavorite(song)
+const toggleFavorite = (row) => { // 新增的收藏功能
+	const resultIdx = musicstore.songs.findIndex(item => item.id == row.id)
+	musicstore.toggleFavorite(musicstore.songs[resultIdx])
 }
 const playLiked = () => {
 		state.tableData = musicstore.songs.filter(song => song.liked)
@@ -171,7 +174,6 @@ const showPlayedSongs = () => {
 							<svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" @click.stop="toggleFavorite(scope.row)">
 								<path :stroke="scope.row.Favorite ? 'black' : 'currentColor'" :fill="scope.row.Favorite ? 'black' : 'none'" stroke-linecap="round" stroke-linejoin="round"  d="M12,2 L15.09,8.472 L22,9.27 L17,14.02 L18.18,21 L12,17.77 L5.82,21 L7,14.02 L2,9.27 L8.91,8.47 L12,2 Z" fill="none"/>
 							</svg>
-
 
 						</div>
 					</template>
