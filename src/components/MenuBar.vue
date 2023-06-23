@@ -133,7 +133,7 @@ const toUserList = (e) => {
 			</div>
 		</div>
 		<div class="side-wrapper">
-			<div class="side-title">收藏</div>
+			<div class="side-title">我的歌单</div>
 			<div class="side-menu">
 				<a href="javascript:;" style="padding: 5px 10px 5px 10px;" @click="toUserList(item.id)"
 					v-for="(item, index) in list" :key="index">
