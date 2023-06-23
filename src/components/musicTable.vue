@@ -38,6 +38,7 @@ const playerMusic = async (params) => {
 		})
 		musicstore.currentIndex = musicstore.songs.length - 1
 	}
+	musicstore.addToPlayed(musicstore.songs[musicstore.currentIndex])
 }
 const rowdbclick = (row, column, event) => {
 	playerMusic(row)
