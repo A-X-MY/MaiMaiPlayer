@@ -21,6 +21,8 @@ const state = reactive({
 		{ model: "顺序播放", icon: "/src/static/img/aplayer/序列.svg" },
 		{ model: "单曲循环", icon: "/src/static/img/aplayer/循环.svg" },
 		{ model: "随机播放", icon: "/src/static/img/aplayer/随机.svg" },
+		{ model: "心动模式", icon: "/src/static/img/aplayer/心动.svg" },
+		{ model: "收藏播放", icon: "/src/static/img/aplayer/收藏.svg" },
 	],
 	isPlayerModel: [
 		{ model: "播放", icon: playerIcon },
@@ -145,7 +147,11 @@ const playSong = () => {
 const handleEnded = () => {
 	switch (state.mode) {
 		case 0: // 顺序播放
-			nextSong()
+			if (musicstore.currentIndex === musicstore.songs.length - 1) {
+				musicstore.currentIndex=0
+			} else {
+				nextSong()
+			}
 			break
 		case 1: // 单曲循环
 			playSong()
@@ -155,8 +161,45 @@ const handleEnded = () => {
 			musicstore.currentIndex = randomIndex
 			playSong()
 			break
+		case 3: // 顺序播放喜欢的音乐
+			const favoriteSongs = musicstore.songs.filter(song => song.liked)
+			if (favoriteSongs.length === 0) {
+				state.mode++
+			} else {
+				if (musicstore.currentIndex === musicstore.songs.length - 1) {
+					musicstore.currentIndex = 0
+				}
+				if(!musicstore.songs[musicstore.currentIndex].liked) {
+					while (!musicstore.songs[musicstore.currentIndex].liked) {
+						musicstore.currentIndex++
+					}
+				}
+				else{musicstore.currentIndex++
+					handleEnded()}
+				playSong()
+			}
+			break
+		case 4: // 顺序播放收藏的音乐
+			const collectSongs = musicstore.songs.filter(song => song.Favorite)
+			if (collectSongs.length === 0) {
+				state.mode=0
+			} else {
+				if (musicstore.currentIndex === musicstore.songs.length - 1) {
+					musicstore.currentIndex = 0
+				}
+				if(!musicstore.songs[musicstore.currentIndex].Favorite) {
+					while (!musicstore.songs[musicstore.currentIndex].Favorite) {
+						musicstore.currentIndex++
+					}
+				}
+				else{musicstore.currentIndex++
+					handleEnded()}
+				playSong()
+			}
+			break
 	}
 }
+
 // 更新
 const handleTimeUpdate = async () => {
 	state.currentTime = Math.floor(audio.value.currentTime)
@@ -183,15 +226,48 @@ const handleDurationChange = () => {
 }
 // 更改播放模式
 const toggleMode = () => {
-	if (state.mode === 2) {
-		state.mode = 0
-	} else {
-		state.mode++
+	switch (state.mode) {
+		case 0: // 顺序播放
+			state.mode = 1 // 单曲循环
+			break
+		case 1: // 单曲循环
+			state.mode = 2 // 随机播放
+			break
+		case 2: // 随机播放
+			state.mode = 3 // 顺序播放喜欢的音乐
+			break
+		case 3: // 顺序播放喜欢的音乐
+			state.mode = 4 // 顺序播放收藏的音乐
+			break
+		case 4: // 顺序播放收藏的音乐
+			state.mode = 0 // 回到顺序播放
+			break
 	}
+
+	let modeText = ''
+	if (state.mode === 0) {
+		modeText = '顺序播放'
+	} else if (state.mode === 1) {
+		modeText = '单曲循环'
+	} else if (state.mode === 2) {
+		modeText = '随机播放'
+	} else if (state.mode === 3) {
+		modeText = '心动模式'
+	} else if (state.mode === 4) {
+		modeText = '收藏模式'
+	}
+
 	ElMessage.success({
-		message: state.playerMode[state.mode].model,
+		message: modeText,
 		type: 'success',
 	})
+}
+
+const toggleLike = () => {
+	musicstore.toggleLike(musicstore.songs[musicstore.currentIndex])
+}
+const toggleFavorite = () => { // 收藏功能
+	musicstore.toggleFavorite(musicstore.songs[musicstore.currentIndex])
 }
 // 格式化时间
 const formatTime = (time) => {
@@ -263,6 +339,7 @@ const getCommentList = () => {
 			<div class="aplayer">
 				<!-- 歌曲列表 -->
 				<div class="m-btns">
+
 					<a href="javascript:;" @click="toggleMode">
 						<img :src="modeText.icon" alt="" class="Musicice" />
 					</a>
@@ -277,6 +354,14 @@ const getCommentList = () => {
 					</a>
 				</div>
 				<div class="slider-demo-block rightvoice">
+					<svg viewBox="0 0 24 24" width="25" height="25" aria-hidden="true" @click="toggleLike">
+						<path :stroke="currentSong.liked ? 'red' : 'currentColor'" :fill="currentSong.liked ? 'red' : 'none'" stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z">
+						</path>
+					</svg>
+					<span style="margin: 0 5px;"></span>
+					<svg viewBox="0 0 24 24" width="25" height="25" aria-hidden="true" @click="toggleFavorite">
+						<path :stroke="currentSong.Favorite ? 'black' : 'currentColor'" :fill="currentSong.Favorite ? 'black' : 'none'" stroke-linecap="round" stroke-linejoin="round"  d="M12,2 L15.09,8.472 L22,9.27 L17,14.02 L18.18,21 L12,17.77 L5.82,21 L7,14.02 L2,9.27 L8.91,8.47 L12,2 Z" fill="none"/>
+					</svg>
 					<a href="javascript:;"><img src="../static/img/aplayer/声音.svg" alt="" width="20"></a>
 					<!-- 音量条 -->
 					<el-slider v-model="volumes" @change="changeVolumes" style="width: 70px" :show-tooltip="true" />
@@ -428,7 +513,7 @@ const getCommentList = () => {
 			padding: 15px 0px;
 			// opacity: 0.75;
 			/* 过渡动画，可根据需要调整 */
-			transition: all 0.3s ease-out;
+			transition: all 1s ease-out;
 		}
 	}
 }
