@@ -59,13 +59,12 @@ export const musicStore = defineStore({
 			}
 		},
 		// 在更新歌曲索引时将当前歌曲加入到 playedSongs 列表中
-		setCurrentIndex(index) {
+		addToPlayed(song) {
 			this.playedSongs.push({
-				song: this.songs[this.currentIndex],
-				playedAt: new Date(),
+				...song,
+				playTime: new Date()
 			})
-			this.currentIndex = index
-		},
+		}
 	},
 	persist: {
 		enabled: true,
