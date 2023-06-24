@@ -16,7 +16,6 @@ export const musicStore = defineStore({
 				mv: '',
 				Lyric: '',
 				liked: false,
-				Favorite: false,
 			},
 			{
 				id: '409872504',
@@ -29,8 +28,7 @@ export const musicStore = defineStore({
 				time: 260675,
 				mv: '',
 				Lyric: '',
-				liked: false,
-				Favorite: false,
+				liked: false
 			},
 		],
 		currentIndex: 0,
@@ -52,12 +50,7 @@ export const musicStore = defineStore({
 				this.songs[index].liked = !this.songs[index].liked
 			}
 		},
-		toggleFavorite(song) {
-			const index = this.songs.indexOf(song)
-			if (index !== -1) {
-				this.songs[index].Favorite = !this.songs[index].Favorite
-			}
-		},
+
 		// 在更新歌曲索引时将当前歌曲加入到 playedSongs 列表中
 		addToPlayed(song) {
 			this.playedSongs.push({
