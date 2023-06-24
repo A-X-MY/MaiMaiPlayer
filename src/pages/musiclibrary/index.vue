@@ -70,7 +70,7 @@ const toSearch = async () => {
 <template>
 	<div>
 		<div class="content-wrapper-header" style="margin-top: -10px;">
-			<video src="@/static/mp4/B站.mp4" autoplay loop muted style="border-radius: 14px;width: 100%;"></video>
+			<video src="@/static/mp4/明日方舟.mp4" autoplay loop muted style="border-radius: 14px;width: 100%;"></video>
 		</div>
 		<div class="m-lib">
 			<el-button v-for="(item, index) in buttonList" :key="index" :color="item.color" round class="m-lib-btn">{{
