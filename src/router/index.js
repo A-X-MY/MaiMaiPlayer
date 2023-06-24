@@ -70,23 +70,7 @@ const routes = [
 			keepAlive: true
 		}
 	},
-	{
-		path: '/animation',
-		component: () => import('@/pages/animation/index.vue'),
-		meta: {
-			keepAlive: true
-		}
-	},
-	{
-		path: '/animation/:id',
-		name: "animation",
-		component: () => import('@/pages/animation/[id].vue'),
-	},
-	{
-		path: '/animation/player/:id',
-		name: "playerAnimation",
-		component: () => import('@/pages/animation/player.vue'),
-	},
+
 ]
 
 const router = createRouter({
