@@ -96,7 +96,6 @@ const toUserList = (e) => {
 							p-id="2544" fill="#525B72"></path>
 					</svg>
 					电台
-					<span class="notification-number updates">3</span>
 				</router-link>
 				<router-link to="/songList">
 					<svg t="1648736548811" class="icon" viewBox="0 0 1024 1024" version="1.1"
