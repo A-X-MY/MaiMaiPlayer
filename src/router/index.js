@@ -29,13 +29,6 @@ const routes = [
 		component: () => import('@/pages/mv/[id].vue'),
 	},
 	{
-		path: '/radio',
-		component: () => import('@/pages/radio/index.vue'),
-		meta: {
-			keepAlive: true
-		}
-	},
-	{
 		path: '/songList',
 		component: () => import('@/pages/songList/index.vue'),
 		meta: {
