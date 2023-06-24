@@ -26,7 +26,11 @@ const rowdbClick = (row, column, cell, event) => {
 	musicstore.currentIndex = resultIdx
 }
 const deleteAllSongs = () => {
-	musicstore.songs.splice(1, musicstore.songs.length);
+   const currentIndex = musicstore.currentIndex
+	const length = musicstore.songs.length
+		musicstore.songs.splice(0, currentIndex);
+	musicstore.songs.splice(1, length-currentIndex);
+	musicstore.currentIndex=0
 
 }
 const deleteSong = (row) => {
@@ -67,15 +71,8 @@ const toggleLike = (row) => {
 	const resultIdx = musicstore.songs.findIndex(item => item.id == row.id)
 	musicstore.toggleLike(musicstore.songs[resultIdx])
 }
-const toggleFavorite = (row) => { // 新增的收藏功能
-	const resultIdx = musicstore.songs.findIndex(item => item.id == row.id)
-	musicstore.toggleFavorite(musicstore.songs[resultIdx])
-}
 const playLiked = () => {
 		state.tableData = musicstore.songs.filter(song => song.liked)
-}
-const playFavorite = () => {
-		state.tableData = musicstore.songs.filter(song => song.Favorite)
 }
 const AllPlaylist = () => {
 	state.tableData = musicstore.songs
@@ -108,9 +105,6 @@ const showPlayedSongs = () => {
 			<el-button type="primary" size="medium" @click="playLiked">
 				我喜欢
 			</el-button>
-			<el-button type="primary" size="medium" @click="playFavorite">
-				我收藏
-			</el-button>
 			<el-button type="primary" size="medium" @click="AllPlaylist">
 				全部歌单
 			</el-button>
@@ -142,6 +136,10 @@ const showPlayedSongs = () => {
 				<el-table-column>
 					<template #default="scope">
 						<div class="button-wrapper">
+							<svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" @click.stop="toggleLike(scope.row)">
+								<path :stroke="scope.row.liked ? 'red' : 'currentColor'" :fill="scope.row.liked ? 'red' : 'none'" stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z">
+								</path>
+							</svg>
 							<!-- 播放 -->
 							<svg t="1648883741930" class="icon" viewBox="0 0 1024 1024" version="1.1"
 								xmlns="http://www.w3.org/2000/svg" p-id="2199" width="28" height="28"
@@ -167,13 +165,7 @@ const showPlayedSongs = () => {
 									d="M202.666667 256h-42.666667a32 32 0 0 1 0-64h704a32 32 0 0 1 0 64H266.666667v565.333333a53.333333 53.333333 0 0 0 53.333333 53.333334h384a53.333333 53.333333 0 0 0 53.333333-53.333334V352a32 32 0 0 1 64 0v469.333333c0 64.8-52.533333 117.333333-117.333333 117.333334H320c-64.8 0-117.333333-52.533333-117.333333-117.333334V256z m224-106.666667a32 32 0 0 1 0-64h170.666666a32 32 0 0 1 0 64H426.666667z m-32 288a32 32 0 0 1 64 0v256a32 32 0 0 1-64 0V437.333333z m170.666666 0a32 32 0 0 1 64 0v256a32 32 0 0 1-64 0V437.333333z"
 									fill="#000000" p-id="3250"></path>
 							</svg>
-							<svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" @click.stop="toggleLike(scope.row)">
-								<path :stroke="scope.row.liked ? 'red' : 'currentColor'" :fill="scope.row.liked ? 'red' : 'none'" stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z">
-								</path>
-							</svg>
-							<svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" @click.stop="toggleFavorite(scope.row)">
-								<path :stroke="scope.row.Favorite ? 'black' : 'currentColor'" :fill="scope.row.Favorite ? 'black' : 'none'" stroke-linecap="round" stroke-linejoin="round"  d="M12,2 L15.09,8.472 L22,9.27 L17,14.02 L18.18,21 L12,17.77 L5.82,21 L7,14.02 L2,9.27 L8.91,8.47 L12,2 Z" fill="none"/>
-							</svg>
+
 
 						</div>
 					</template>
