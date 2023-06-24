@@ -169,14 +169,16 @@ const handleEnded = () => {
 				if (musicstore.currentIndex === musicstore.songs.length - 1) {
 					musicstore.currentIndex = 0
 				}
+				else musicstore.currentIndex++
+
 				if(!musicstore.songs[musicstore.currentIndex].liked) {
 					while (!musicstore.songs[musicstore.currentIndex].liked) {
 						musicstore.currentIndex++
 					}
+					playSong()
 				}
-				else{musicstore.currentIndex++
-					handleEnded()}
-				playSong()
+				else playSong()
+
 			}
 			break
 		case 4: // 顺序播放收藏的音乐
@@ -187,14 +189,15 @@ const handleEnded = () => {
 				if (musicstore.currentIndex === musicstore.songs.length - 1) {
 					musicstore.currentIndex = 0
 				}
+				else musicstore.currentIndex++
+
 				if(!musicstore.songs[musicstore.currentIndex].Favorite) {
 					while (!musicstore.songs[musicstore.currentIndex].Favorite) {
 						musicstore.currentIndex++
 					}
+					playSong()
 				}
-				else{musicstore.currentIndex++
-					handleEnded()}
-				playSong()
+				else playSong()
 			}
 			break
 	}
